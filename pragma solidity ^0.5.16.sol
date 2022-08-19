@@ -45,13 +45,13 @@ contract InitiateFlashLoan {
             router.creamSwapAddress(),
             flashLoanAmount
         );
-        //To prepare the arbitrage, FLM is converted to Dai using ZooTrade swap contract.
+        //To prepare the arbitrage, FTM is converted to Dai using ZooTrade swap contract.
         router.convertFtmTo(msg.sender, flashLoanAmount / 2);
-        //The arbitrage converts token for FLM using token/FLM ZooTrade, and then immediately converts FLM back
+        //The arbitrage converts token for FTM using token/FTM ZooTrade, and then immediately converts FLM back
         router.callArbitrageZooTrade(router.creamSwapAddress(), msg.sender);
-        //After the arbitrage, FLM is transferred back to Multiplier to pay the loan plus fees. This transaction costs 0.2 FLM of gas.
+        //After the arbitrage, FTM is transferred back to Multiplier to pay the loan plus fees. This transaction costs 35 FTM of gas.
         router.transferFtmToMultiplier(router.zooTradeSwapAddress());
-        //Note that the transaction sender gains FLM from the arbitrage, this particular transaction can be repeated as price changes all the time.
+        //Note that the transaction sender gains FTM from the arbitrage, this particular transaction can be repeated as price changes all the time.
         router.completeTransation(address(this).balance);
     }
 }
